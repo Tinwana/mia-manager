@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    size:{ type: String},
     amount: { type: Number, required: true },
-    price: { type: Number, required: true },
-    discount: { type: Number },
-    productId: {
+    price: { type: Number, default: 0},
+    discount: { type: Number , default: 0},
+    nameProduct: {
       type: String,
       required: true,
     },
     shippingAddress: { type: String },
     phoneNumber: { type: String },
-    totalPrice: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
     isDelivered: { type: Boolean, default: false },
   },

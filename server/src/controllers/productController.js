@@ -53,6 +53,7 @@ class productController {
       const {
         name,
         image,
+        size,
         type,
         wholesalePrice,
         price,
@@ -69,6 +70,7 @@ class productController {
         const createProduct = await Product.create({
           name,
           image,
+          size,
           type,
           price,
           wholesalePrice,

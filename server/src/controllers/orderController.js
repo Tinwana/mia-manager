@@ -30,33 +30,31 @@ class productController {
       const {
         name,
         amount,
-        price,
         discount,
-        productId,
+        nameProduct,
         shippingAddress,
         phoneNumber,
-        totalPrice,
         isPaid,
         isDelivered,
       } = req.body;
+      const product = await Product.findOne({ name:nameProduct });
+      const price = product.price;
       const createOrder = await Order.create({
         name,
         amount,
         price,
         discount,
-        productId,
+        nameProduct,
         shippingAddress,
         phoneNumber,
-        totalPrice,
         isPaid,
         isDelivered,
       });
       if (createOrder) {
-        const product = await Product.findOne({ _id: createOrder.productId });
-        const stockHandle = await Product.findByIdAndUpdate(
-          { _id: createOrder.productId },
+        const stockHandle = await Product.findOneAndUpdate(
+          { name: createOrder.nameProduct },
           { countInStock: product.countInStock - createOrder.amount },
-          {new:true}
+          { new: true }
         );
         if (stockHandle) console.log("handle success");
         return res.status(200).json({
@@ -96,6 +94,30 @@ class productController {
           status: "OK",
           message: "update product successfully",
           data: updateOrder,
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        status: "catch error",
+        message: error.message,
+      });
+    }
+  }
+
+  async getDetail(req, res, next) {
+    try {
+      const orderId = req.params.orderId;
+      const detailOrder = await Order.findOne({ _id: orderId });
+      if (detailOrder === null) {
+        return res.status(404).json({
+          status: "not found",
+          message: "Order not found!",
+        });
+      } else {
+        return res.status(200).json({
+          status: "OK",
+          message: "get detail order successfully",
+          data: detailOrder,
         });
       }
     } catch (error) {
