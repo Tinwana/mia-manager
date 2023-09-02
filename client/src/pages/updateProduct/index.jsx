@@ -11,6 +11,7 @@ const UpdateProduct = () => {
   const wholesalePriceRef = useRef()
   const priceRef = useRef()
   const countInStockRef = useRef()
+  const soldInMonthRef = useRef()
   const descriptionRef = useRef()
   const [product, setProduct] = useState([]);
   const [navigate,setNavigate] = useState(false);
@@ -35,6 +36,7 @@ const UpdateProduct = () => {
         wholesalePrice:wholesalePriceRef.current?.value,
         price:priceRef.current?.value,
         countInStock:countInStockRef.current?.value,
+        soldInMonth:soldInMonthRef.current?.value,
         description:descriptionRef.current?.value,
       },
     })
@@ -114,6 +116,16 @@ const UpdateProduct = () => {
             defaultValue={product?.data?.countInStock}
             name='countInStock'
             ref={countInStockRef}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicStock">
+          <Form.Label>Sold In Month</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Count In Stock"
+            defaultValue={product?.data?.soldInMonth}
+            name='soldInMonth'
+            ref={soldInMonthRef}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicDé">

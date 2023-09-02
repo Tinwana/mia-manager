@@ -14,7 +14,7 @@ class productController {
         return res.status(200).json({
           status: "OK",
           message: `select orders successfully`,
-          data: allOrder,
+          data: req.orderService,
         });
       }
     } catch (error) {
@@ -29,6 +29,7 @@ class productController {
     try {
       const {
         name,
+        size,
         amount,
         discount,
         nameProduct,
@@ -37,10 +38,11 @@ class productController {
         isPaid,
         isDelivered,
       } = req.body;
-      const product = await Product.findOne({ name:nameProduct });
+      const product = await Product.findOne({ name: nameProduct });
       const price = product.price;
       const createOrder = await Order.create({
         name,
+        size,
         amount,
         price,
         discount,
@@ -53,10 +55,14 @@ class productController {
       if (createOrder) {
         const stockHandle = await Product.findOneAndUpdate(
           { name: createOrder.nameProduct },
-          { countInStock: product.countInStock - createOrder.amount },
+          {
+            countInStock: product.countInStock - createOrder.amount,
+            soldInMonth: (product.soldInMonth += createOrder.amount),
+            soldAll:(product.soldAll += createOrder.amount)
+          },
           { new: true }
         );
-        if (stockHandle) console.log("handle success");
+
         return res.status(200).json({
           status: "OK",
           message: "success",

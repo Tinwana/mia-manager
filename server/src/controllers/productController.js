@@ -13,7 +13,7 @@ class productController {
         return res.status(200).json({
           status: "OK",
           message: `select products successfully`,
-          data: allProduct,
+          data: req.productService,
         });
       }
     } catch (error) {

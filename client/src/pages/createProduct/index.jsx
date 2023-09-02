@@ -116,7 +116,7 @@ const CreateProductPage = () => {
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Change
+          Create
         </Button>
       </Form>
       {navigate && <Navigate to="/product" />}

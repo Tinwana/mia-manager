@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./homepage.module.scss";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
 import { axiosApi } from "../../axios";
@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 const HomePage = () => {
+  const [limitProduct,setLimitProduct] = useState(5)
+  const [limitOrder,setLimitOrder] = useState(5)
   const [product, setProduct] = useState([]);
   // const [customer, setCustomer] = useState([]);
   const [order, setOrder] = useState([]);
@@ -16,29 +18,37 @@ const HomePage = () => {
   const getAllProduct = async () => {
     const response = await axiosApi({
       method: "GET",
-      url: "products/get-all",
+      url: `products/get-all?limit=${limitProduct}`,
     });
     setProduct(response.data);
   };
   const getAllOrder = async () => {
     const response = await axiosApi({
       method: "GET",
-      url: "orders/get-all",
+      url: `orders/get-all?limit=${limitOrder}`,
     });
     setOrder(response.data);
   };
 
+  const handleProductLimit = e => {
+    setLimitProduct(pre => pre + 5)
+  }
+
+  const handleOrderLimit = e => {
+    setLimitOrder(pre => pre + 5)
+  }
+
   useEffect(() => {
     getAllProduct();
     getAllOrder();
-  }, []);
+  }, [limitProduct,limitOrder]);
 
   return (
     <>
       <div className={cx("wrapper")}>
         <div className={cx("block")}>
           <h5>PRODUCT:</h5>
-          <Table bordered hover responsive>
+          <Table bordered hover className="flex-grow-1">
             <thead>
               <tr>
                 <td>Name</td>
@@ -48,11 +58,13 @@ const HomePage = () => {
                 <td>Wholesale price</td>
                 <td>Price</td>
                 <td>Count In Stock</td>
+                <td>Sold in month</td>
+                <td>Sold all</td>
                 <td>Description</td>
               </tr>
             </thead>
             <tbody>
-              {product?.data?.map((item) => {
+              {product?.data?.products?.map((item) => {
                 return (
                   <tr key={item._id}>
                   <td>{item.name}</td>
@@ -62,6 +74,8 @@ const HomePage = () => {
                   <td>{item.wholesalePrice}</td>
                   <td>{item.price}</td>
                   <td>{item.countInStock}</td>
+                  <td>{item.soldInMonth}</td>
+                  <td>{item.soldAll}</td>
                   <td>
                     <a href={item.description}>{item.description}</a>
                   </td>
@@ -73,10 +87,11 @@ const HomePage = () => {
               })}
             </tbody>
           </Table>
+          <Button onClick={handleProductLimit}>Load more</Button>
         </div>
         <div className={cx("block")}>
           <h5>ORDER:</h5>
-          <Table bordered hover responsive>
+          <Table bordered hover className="flex-grow-1">
             <thead>
               <tr>
                 <td>Name</td>
@@ -93,7 +108,7 @@ const HomePage = () => {
               </tr>
             </thead>
             <tbody>
-            {order?.data?.map((item) => {
+            {order?.data?.orders?.map((item) => {
               const totalPrice =
                 item.price * item.amount -
                 (item.discount / 100) * item.price * item.amount;
@@ -126,6 +141,7 @@ const HomePage = () => {
             })}
             </tbody>
           </Table>
+          <Button onClick={handleOrderLimit}>Load more</Button>
         </div>
       </div>
     </>

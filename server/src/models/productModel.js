@@ -8,6 +8,8 @@ const productSchema = new mongoose.Schema(
         wholesalePrice: { type: Number, required:true},
         price:{ type: Number,required:true},
         countInStock:{ type: Number, required:true},
+        soldInMonth:{ type: Number , default:0},
+        soldAll: { type: Number, default:0},
         description: { type: String}
     },
     {
