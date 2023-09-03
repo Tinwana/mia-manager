@@ -7,9 +7,11 @@ import UpdateOrder from "../pages/updateOrder"
 import CreateProductPage from "../pages/createProduct"
 import CreateOrderPage from "../pages/createOrder"
 import NotFoundPage from "../pages/NotFoundPage"
+import UpdateCustomerPage from "../pages/UpdateCustomerPage/UpdateCustomerPage"
 
 export const publicRoutes = [
     {path:'/', element:HomePage, isShowHeader:true},
+    {path:'/customer/update/:customerId', element:UpdateCustomerPage, isShowHeader:true},
     {path:'/customer', element:CustomerPage, isShowHeader:true},
     {path:'/order/update/:orderId', element:UpdateOrder, isShowHeader:true},
     {path:'/order/create', element:CreateOrderPage, isShowHeader:true},

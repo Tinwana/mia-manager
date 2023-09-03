@@ -1,6 +1,6 @@
-const Order = require("../models/orderModel");
+const Customer = require("../models/customerModel");
 
-const orderServiceMiddleware = async (req, res, next) => {
+const customerServiceMiddleware = async (req, res, next) => {
   if (req.query.sort !== "asc" && req.query.sort !== "desc") {
     req.query.sort = "desc";
   }
@@ -9,43 +9,43 @@ const orderServiceMiddleware = async (req, res, next) => {
   let escapeFilterValue;
   const sort = req.query.sort;
   const sortBy = req.query.sort_by || "createdAt";
-  let allOrder = await Order.find();
+  let allCustomer = await Customer.find();
 
   if (!!sort || !!sortBy) {
-    allOrder = await Order.find().sort({ [sortBy]: sort });
+    allCustomer = await Customer.find().sort({ [sortBy]: sort });
   }
   if (!!filterValue && !!filterBy) {
     escapeFilterValue = filterValue.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
-    allOrder = await Order.find({
+    allCustomer = await Customer.find({
       [filterBy]: { $regex: new RegExp(escapeFilterValue, "i")},
     });
   }
   const limit =
-    parseInt(req.query.limit) > allOrder.length + 1
-      ? allOrder.length + 1
-      : parseInt(req.query.limit) || allOrder.length;
+    parseInt(req.query.limit) > allCustomer.length + 1
+      ? allCustomer.length + 1
+      : parseInt(req.query.limit) || allCustomer.length;
   let page =
-    parseInt(req.query.limit) > allOrder.length + 1
+    parseInt(req.query.limit) > allCustomer.length + 1
       ? 1
       : parseInt(req.query.page) || 1;
-  const totalPages = Math.ceil(allOrder.length / limit);
+  const totalPages = Math.ceil(allCustomer.length / limit);
   if (page > totalPages) page = 1;
   const startIndex = (page - 1) * limit;
   const endIndex = startIndex + limit;
   let stateGetProduct;
-  if (limit === allOrder.length) {
+  if (limit === allCustomer.length) {
     stateGetProduct = "all";
   } else {
     stateGetProduct = "";
   }
-  const orderService = allOrder.slice(startIndex, endIndex);
-  req.orderService = {
+  const customerService = allCustomer.slice(startIndex, endIndex);
+  req.customerService = {
     stateGetProduct,
     currentPage: page,
     totalPages,
     limit,
-    orders: orderService,
+    customers: customerService,
   };
   next();
 };
-module.exports = orderServiceMiddleware;
+module.exports = customerServiceMiddleware;

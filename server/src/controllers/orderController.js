@@ -1,7 +1,8 @@
 const Order = require("../models/orderModel.js");
 const Product = require("../models/productModel.js");
+const Customer = require("../models/customerModel.js");
 
-class productController {
+class orderController {
   async getAll(req, res, next) {
     try {
       const allOrder = await Order.find();
@@ -40,6 +41,12 @@ class productController {
       } = req.body;
       const product = await Product.findOne({ name: nameProduct });
       const price = product.price;
+      if (product.countInStock < amount) {
+        return res.status(400).json({
+          status: "error",
+          message: "out of stock",
+        });
+      }
       const createOrder = await Order.create({
         name,
         size,
@@ -56,12 +63,31 @@ class productController {
         const stockHandle = await Product.findOneAndUpdate(
           { name: createOrder.nameProduct },
           {
-            countInStock: product.countInStock - createOrder.amount,
+            countInStock:
+              product.countInStock - createOrder.amount < 0
+                ? 0
+                : product.countInStock - createOrder.amount,
             soldInMonth: (product.soldInMonth += createOrder.amount),
-            soldAll:(product.soldAll += createOrder.amount)
+            soldAll: (product.soldAll += createOrder.amount),
           },
           { new: true }
         );
+        const checkCustomer = await Customer.findOne({ phone: phoneNumber });
+        if (checkCustomer === null) {
+          const customerHandle = await Customer.create({
+            name: name,
+            phone: phoneNumber,
+            address: shippingAddress,
+          });
+        } else {
+          if (name !== checkCustomer.name) {
+            const updateName = await Customer.findOneAndUpdate(
+              { phone: phoneNumber },
+              { name },
+              { new: true }
+            );
+          }
+        }
 
         return res.status(200).json({
           status: "OK",
@@ -80,6 +106,7 @@ class productController {
   async updateOrder(req, res) {
     const orderId = req.params.id;
     try {
+      const product = await Product.findOne({ name: req.body.nameProduct });
       const updateOrder = await Order.findByIdAndUpdate(
         { _id: orderId },
         req.body,
@@ -96,11 +123,44 @@ class productController {
           message: "product id param not found!",
         });
       } else {
-        return res.status(200).json({
-          status: "OK",
-          message: "update product successfully",
-          data: updateOrder,
-        });
+        if (updateOrder) {
+          const stockHandle = await Product.findOneAndUpdate(
+            { name: createOrder.nameProduct },
+            {
+              countInStock:
+                product.countInStock - updateOrder.amount < 0
+                  ? 0
+                  : product.countInStock - createOrder.amount,
+              soldInMonth: (product.soldInMonth += updateOrder.amount),
+              soldAll: (product.soldAll += updateOrder.amount),
+            },
+            { new: true }
+          );
+          const checkCustomer = await Customer.findOne({
+            phone: req.body.phoneNumber,
+          });
+          if (checkCustomer === null) {
+            const customerHandle = await Customer.create({
+              name: req.body.name,
+              phone: req.body.phoneNumber,
+              address: req.body.shippingAddress,
+            });
+          } else {
+            if (req.body.name !== checkCustomer.name) {
+              const updateName = await Customer.findOneAndUpdate(
+                { phone: req.body.phoneNumber },
+                { name: req.body.name },
+                { new: true }
+              );
+            }
+          }
+
+          return res.status(200).json({
+            status: "OK",
+            message: "update product successfully",
+            data: updateOrder,
+          });
+        }
       }
     } catch (error) {
       return res.status(500).json({
@@ -109,7 +169,6 @@ class productController {
       });
     }
   }
-
   async getDetail(req, res, next) {
     try {
       const orderId = req.params.orderId;
@@ -134,5 +193,4 @@ class productController {
     }
   }
 }
-
-module.exports = new productController();
+module.exports = new orderController();

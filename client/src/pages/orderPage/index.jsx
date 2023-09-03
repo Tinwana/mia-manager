@@ -87,11 +87,12 @@ const OrderPage = () => {
             <td>Price</td>
             <td>Discount</td>
             <td>Name Product</td>
-            <td>ShippingAddress</td>
-            <td>PhoneNumber</td>
-            <td>TotalPrice</td>
-            <td>IsPaid</td>
-            <td>IsDelivered</td>
+            <td>Shipping Address</td>
+            <td>Phone Number</td>
+            <td>Total Price</td>
+            <td>Is Paid</td>
+            <td>Is Delivered</td>
+            <td>Created At</td>
             <td>Manager</td>
           </tr>
         </thead>
@@ -102,6 +103,12 @@ const OrderPage = () => {
                 const totalPrice =
                   item.price * item.amount -
                   (item.discount / 100) * item.price * item.amount;
+                  const createdAtFormat = new Date(item.updatedAt);
+                const createdAt = `${createdAtFormat.getDate()}/${createdAtFormat.toLocaleString(
+                  "default",
+                  { month: "short" }
+                )}/
+                ${createdAtFormat.getFullYear()}-${createdAtFormat.getHours()}h ${createdAtFormat.getMinutes()}m`;
                 return (
                   <tr key={item._id}>
                     <td>{item.name}</td>
@@ -122,6 +129,7 @@ const OrderPage = () => {
                     ) : (
                       <td>delivery successfully</td>
                     )}
+                    <td>{createdAt}</td>
                     <td>
                       <Link to={`/order/update/${item._id}`}>Change</Link>
                     </td>
@@ -132,6 +140,12 @@ const OrderPage = () => {
                 const totalPrice =
                   item.price * item.amount -
                   (item.discount / 100) * item.price * item.amount;
+                const createdAtFormat = new Date(item.updatedAt);
+                const createdAt = `${createdAtFormat.getDate()}/${createdAtFormat.toLocaleString(
+                  "default",
+                  { month: "short" }
+                )}/
+                ${createdAtFormat.getFullYear()}-${createdAtFormat.getHours()}h ${createdAtFormat.getMinutes()}m`;
                 return (
                   <tr key={item._id}>
                     <td>{item.name}</td>
@@ -152,6 +166,7 @@ const OrderPage = () => {
                     ) : (
                       <td>delivery successfully</td>
                     )}
+                    <td>{createdAt}</td>
                     <td>
                       <Link to={`/order/update/${item._id}`}>Change</Link>
                     </td>
