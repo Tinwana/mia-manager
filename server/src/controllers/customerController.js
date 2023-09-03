@@ -6,7 +6,7 @@ class customerController {
       const allCustomer = await Customer.find();
       if (allCustomer === null) {
         return res.status(200).json({
-          status: "404",
+          status: "OK",
           message: "out of Customer in stock!",
         });
       } else {
