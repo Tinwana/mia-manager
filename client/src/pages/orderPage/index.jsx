@@ -73,7 +73,7 @@ const OrderPage = () => {
           </div>
         </form>
         <Button>
-          <Link to="/order/create" className="text-light">
+          <Link to="/order/create" className="link-light text-decoration-none">
             New order
           </Link>
         </Button>
@@ -82,14 +82,15 @@ const OrderPage = () => {
       <Table bordered hover className="flex-grow-1">
         <thead>
           <tr>
+            <td>Phone Number</td>
             <td>Name</td>
+            <td>Product ID</td>
+            <td>Size</td>
             <td>Amount</td>
             <td>Price</td>
             <td>Discount</td>
-            <td>Name Product</td>
-            <td>Shipping Address</td>
-            <td>Phone Number</td>
             <td>Total Price</td>
+            <td>Shipping Address</td>
             <td>Is Paid</td>
             <td>Is Delivered</td>
             <td>Created At</td>
@@ -103,7 +104,7 @@ const OrderPage = () => {
                 const totalPrice =
                   item.price * item.amount -
                   (item.discount / 100) * item.price * item.amount;
-                  const createdAtFormat = new Date(item.updatedAt);
+                const createdAtFormat = new Date(item.updatedAt);
                 const createdAt = `${createdAtFormat.getDate()}/${createdAtFormat.toLocaleString(
                   "default",
                   { month: "short" }
@@ -111,14 +112,15 @@ const OrderPage = () => {
                 ${createdAtFormat.getFullYear()}-${createdAtFormat.getHours()}h ${createdAtFormat.getMinutes()}m`;
                 return (
                   <tr key={item._id}>
+                    <td>{item.phoneNumber}</td>
                     <td>{item.name}</td>
+                    <td>{item.productId}</td>
+                    <td>{item.size}</td>
                     <td>{item.amount}</td>
                     <td>{item.price}</td>
                     <td>{item.discount}</td>
-                    <td>{item.nameProduct}</td>
-                    <td>{item.shippingAddress}</td>
-                    <td>{item.phoneNumber}</td>
                     <td>{totalPrice}</td>
+                    <td>{item.shippingAddress}</td>
                     {item.isPaid === false ? (
                       <td>Not paid yet!</td>
                     ) : (
@@ -148,14 +150,15 @@ const OrderPage = () => {
                 ${createdAtFormat.getFullYear()}-${createdAtFormat.getHours()}h ${createdAtFormat.getMinutes()}m`;
                 return (
                   <tr key={item._id}>
+                    <td>{item.phoneNumber}</td>
                     <td>{item.name}</td>
+                    <td>{item.productId}</td>
+                    <td>{item.size}</td>
                     <td>{item.amount}</td>
                     <td>{item.price}</td>
                     <td>{item.discount}</td>
-                    <td>{item.nameProduct}</td>
-                    <td>{item.shippingAddress}</td>
-                    <td>{item.phoneNumber}</td>
                     <td>{totalPrice}</td>
+                    <td>{item.shippingAddress}</td>
                     {item.isPaid === false ? (
                       <td>Not paid yet!</td>
                     ) : (

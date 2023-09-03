@@ -63,6 +63,7 @@ const ProductPage = () => {
                 <option value="name">Name</option>
                 <option value="size">Size</option>
                 <option value="type">Type</option>
+                <option value="productId">By ID</option>
               </select>
             </div>
             <div className="d-flex align-items-center gap-2">
@@ -78,7 +79,7 @@ const ProductPage = () => {
           </div>
         </form>
         <Button>
-          <Link to="/product/create" className="text-light">
+          <Link to="/product/create" className="link-light text-decoration-none">
             Create new product
           </Link>
         </Button>
@@ -116,11 +117,10 @@ const ProductPage = () => {
       <Table bordered hover className="flex-grow-1">
         <thead>
           <tr>
+            <td>ID</td>
             <td>Name</td>
-            <td>Size</td>
-            <td>Image</td>
             <td>Type</td>
-            <td>Wholesale price</td>
+            <td>Size</td>
             <td>Price</td>
             <td>Count In Stock</td>
             <td>Sold in month</td>
@@ -129,52 +129,72 @@ const ProductPage = () => {
             <td>Manager</td>
           </tr>
         </thead>
-        <tbody>
-          {filterProduct?.data?.products.length !== 0 &&
-          filterProduct?.data?.products !== undefined
-            ? filterProduct?.data?.products.map((item) => {
-                return (
-                  <tr key={item._id}>
-                    <td>{item.name}</td>
-                    <td>{item.size}</td>
-                    <td>{item.image}</td>
-                    <td>{item.type}</td>
-                    <td>{item.wholesalePrice}</td>
-                    <td>{item.price}</td>
-                    <td>{item.countInStock}</td>
-                    <td>{item.soldInMonth}</td>
-                    <td>{item.soldAll}</td>
-                    <td>
-                      <a href={item.description}>{item.description}</a>
-                    </td>
-                    <td>
-                      <Link to={`/product/update/${item._id}`}>Change</Link>
-                    </td>
+        {filterProduct?.data?.products.length !== 0 &&
+        filterProduct?.data?.products !== undefined
+          ? filterProduct?.data?.products.map((item) => {
+              return (
+                <>
+                  <tbody key={item._id} className="mb-5">
+                    <tr>
+                      <td>{item.productId}</td>
+                      <td>{item.name}</td>
+                      <td>{item.type}</td>
+                      <td>{item.size}</td>
+                      <td>{item.price}</td>
+                      <td>{item.countInStock}</td>
+                      <td>{item.soldInMonth}</td>
+                      <td>{item.soldAll}</td>
+                      <td>
+                        <a href={item.description}>{item.description}</a>
+                      </td>
+                      <td>
+                        <Link to={`/product/update/${item._id}`}>Change</Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                    <thead>
+                    <tr>
+                    <td colSpan={2} className="fw-bold">Giá sỉ tại xưởng</td>
+                    <td colSpan={2} className="fw-bold">Giá sỉ tại nhà</td>
+                    <td colSpan={2} className="fw-bold">Giá lẻ tại xưởng</td>
+                    <td colSpan={3} className="fw-bold">Giá lẻ tại nhà</td>
                   </tr>
-                );
-              })
-            : product?.data?.products.map((item) => {
-                return (
-                  <tr key={item._id}>
-                    <td>{item.name}</td>
-                    <td>{item.size}</td>
-                    <td>{item.image}</td>
-                    <td>{item.type}</td>
-                    <td>{item.wholesalePrice}</td>
-                    <td>{item.price}</td>
-                    <td>{item.countInStock}</td>
-                    <td>{item.soldInMonth}</td>
-                    <td>{item.soldAll}</td>
-                    <td>
-                      <a href={item.description}>{item.description}</a>
-                    </td>
-                    <td>
-                      <Link to={`/product/update/${item._id}`}>Change</Link>
-                    </td>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td colSpan={2}>{item.wholesalePriceChina}</td>
+                    <td colSpan={2}>{item.wholesalePrice}</td>
+                    <td colSpan={2}>{item.priceChina}</td>
+                    <td colSpan={3}>{item.price}</td>
                   </tr>
-                );
-              })}
-        </tbody>
+                    </tbody>
+                </>
+              );
+            })
+          : product?.data?.products.map((item) => {
+              return (
+                <>
+                  <tbody key={item._id} className="mb-5">
+                    <tr>
+                      <td>{item.productId}</td>
+                      <td>{item.name}</td>
+                      <td>{item.type}</td>
+                      <td>{item.size}</td>
+                      <td>{item.price}</td>
+                      <td>{item.countInStock}</td>
+                      <td>{item.soldInMonth}</td>
+                      <td>{item.soldAll}</td>
+                      <td className="wrap">
+                        <a href={item.description}>{item.description}</a>
+                      </td>
+                      <td>
+                        <Link to={`/product/update/${item._id}`}>Change</Link>
+                      </td>
+                    </tr>
+                  </tbody>
+                </>
+              );
+            })}
       </Table>
       <Button onClick={handleProductLimit}>Load more</Button>
     </div>

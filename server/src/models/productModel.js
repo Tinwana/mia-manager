@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema(
     {
         name: { type: String, required:true,unique:true},
-        image:{ type: String},
+        productId:{type: String, required:true,default:100},
         type: { type: String},
-        size:{type: String},
+        size:{type: String, required:true},
+        wholesalePriceChina:{type:Number, required:true},
         wholesalePrice: { type: Number, required:true},
+        priceChina:{type:Number, required:true},
         price:{ type: Number,required:true},
         countInStock:{ type: Number, required:true},
         soldInMonth:{ type: Number , default:0},

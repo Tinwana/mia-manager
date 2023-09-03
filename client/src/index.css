@@ -10,3 +10,11 @@ html{
 body{
   padding-bottom: 10rem;
 }
+table {
+  table-layout: fixed;
+}
+td.wrap {
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

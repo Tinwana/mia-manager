@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    size:{ type: String},
+    size:{ type: String , required: true },
     amount: { type: Number, required: true },
     price: { type: Number, default: 0},
     discount: { type: Number , default: 0},
-    nameProduct: {
+    productId: {
       type: String,
       required: true,
     },

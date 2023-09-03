@@ -52,28 +52,48 @@ class productController {
     try {
       const {
         name,
-        image,
         size,
         type,
+        wholesalePriceChina,
         wholesalePrice,
+        priceChina,
         price,
         countInStock,
         description,
       } = req.body;
-      const checkProduct = await Product.findOne({ name: name });
+      let productId = 0;
+      const checkProduct = await Product.findOne({
+        $and: [{ name: name, size: size }],
+      });
       if (checkProduct !== null) {
         return res.status(400).json({
           status: "error",
           message: "name of product is already in used",
         });
       } else {
+        const latestProduct = await Product.findOne({}).sort({
+          productId: "desc",
+        });
+        if (latestProduct !== null) {
+          const checkName = await Product.findOne({ name });
+          if (checkName === null) {
+            productId = parseInt(latestProduct.productId) + 1;
+          } else {
+            productId = parseInt(latestProduct.productId);
+          }
+        } else {
+          productId = 100;
+        }
+        productId = productId.toString();
         const createProduct = await Product.create({
+          productId: productId,
           name,
-          image,
           size,
           type,
-          price,
+          wholesalePriceChina,
           wholesalePrice,
+          priceChina,
+          price,
           countInStock,
           description,
         });
@@ -94,8 +114,8 @@ class productController {
   }
 
   async updateProduct(req, res) {
-      const productId = req.params.id;
-      try {
+    const productId = req.params.id;
+    try {
       const updateProduct = await Product.findByIdAndUpdate(
         { _id: productId },
         req.body,
@@ -111,13 +131,12 @@ class productController {
           status: "not found",
           message: "product id param not found!",
         });
-      }
-      else{
+      } else {
         return res.status(200).json({
-            status: "OK",
-            message: "update product successfully",
-            data: updateProduct,
-          });
+          status: "OK",
+          message: "update product successfully",
+          data: updateProduct,
+        });
       }
     } catch (error) {
       return res.status(500).json({

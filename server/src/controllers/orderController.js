@@ -33,18 +33,29 @@ class orderController {
         size,
         amount,
         discount,
-        nameProduct,
+        productId,
         shippingAddress,
         phoneNumber,
         isPaid,
         isDelivered,
       } = req.body;
-      const product = await Product.findOne({ name: nameProduct });
-      const price = product.price;
-      if (product.countInStock < amount) {
+      const product = await Product.findOne({
+        $and: [{ productId: productId }, { size: size }],
+      });
+      let price;
+      if (product !== null) {
+        price = product.price;
+        if (product.countInStock < amount) {
+          return res.status(400).json({
+            status: "error",
+            message: "out of stock",
+          });
+        }
+      }
+      else{
         return res.status(400).json({
           status: "error",
-          message: "out of stock",
+          message: "product don't have in store",
         });
       }
       const createOrder = await Order.create({
@@ -53,7 +64,7 @@ class orderController {
         amount,
         price,
         discount,
-        nameProduct,
+        productId,
         shippingAddress,
         phoneNumber,
         isPaid,
@@ -61,7 +72,12 @@ class orderController {
       });
       if (createOrder) {
         const stockHandle = await Product.findOneAndUpdate(
-          { name: createOrder.nameProduct },
+          {
+            $and: [
+              { productId: createOrder.productId },
+              { size: createOrder.size },
+            ],
+          },
           {
             countInStock:
               product.countInStock - createOrder.amount < 0

@@ -4,17 +4,14 @@ import { axiosApi } from "../../axios";
 import { Navigate, useParams } from "react-router-dom";
 
 const UpdateProduct = () => {
-  const nameRef = useRef()
-  const sizeRef = useRef()
-  const imageRef = useRef()
-  const typeRef = useRef()
-  const wholesalePriceRef = useRef()
-  const priceRef = useRef()
-  const countInStockRef = useRef()
-  const soldInMonthRef = useRef()
-  const descriptionRef = useRef()
+  const wholesalePriceChinaRef = useRef();
+  const wholesalePriceRef = useRef();
+  const priceChinaRef = useRef();
+  const priceRef = useRef();
+  const soldInMonthRef = useRef();
+  const descriptionRef = useRef();
   const [product, setProduct] = useState([]);
-  const [navigate,setNavigate] = useState(false);
+  const [navigate, setNavigate] = useState(false);
   const { productId } = useParams();
   const getAllProduct = async (id) => {
     const response = await axiosApi({
@@ -27,104 +24,71 @@ const UpdateProduct = () => {
     e.preventDefault();
     const res = await axiosApi({
       method: "PUT",
-      url:`products/update/${productId}`,
-      data:{
-        name:nameRef.current?.value,
-        size:sizeRef.current?.value,
-        image:imageRef.current?.value,
-        type:typeRef.current?.value,
-        wholesalePrice:wholesalePriceRef.current?.value,
-        price:priceRef.current?.value,
-        countInStock:countInStockRef.current?.value,
-        soldInMonth:soldInMonthRef.current?.value,
-        description:descriptionRef.current?.value,
+      url: `products/update/${productId}`,
+      data: {
+        wholesalePriceChina: wholesalePriceChinaRef.current?.value,
+        wholesalePrice: wholesalePriceRef.current?.value,
+        price: priceRef.current?.value,
+        priceChina: priceChinaRef.current?.value,
+        soldInMonth: soldInMonthRef.current?.value,
+        description: descriptionRef.current?.value,
       },
-    })
+    });
     setNavigate(true);
-  }
+  };
   useEffect(() => {
     getAllProduct(productId);
   }, []);
   return (
     <>
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Name</Form.Label>
+      <Form.Group className="mb-3" controlId="formBasicWholesaleChina">
+          <Form.Label>Giá xỉ tại xưởng</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter name"
-            defaultValue={product?.data?.name}
-            name="name"
-            ref={nameRef}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Size</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Size"
-            defaultValue={product?.data?.size}
-            name="size"
-            ref={sizeRef}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicImage">
-          <Form.Label>Image link</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter link"
-            defaultValue={product?.data?.image}
-            name='image'
-            ref={imageRef}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicType">
-          <Form.Label>Type</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter type"
-            defaultValue={product?.data?.type}
-            name='type'
-            ref={typeRef}
+            placeholder="Enter price"
+            defaultValue={product?.data?.wholesalePriceChina}
+            name="wholesalePriceChina"
+            ref={wholesalePriceChinaRef}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicWholesale">
-          <Form.Label>Wholesale price</Form.Label>
+          <Form.Label>Giá sỉ tại nhà</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Wholesale price"
+            placeholder="Enter price"
             defaultValue={product?.data?.wholesalePrice}
-            name='wholesalePrice'
+            name="wholesalePrice"
             ref={wholesalePriceRef}
           />
         </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPriceChina">
+          <Form.Label>Giá lẻ tại xưởng</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Price"
+            defaultValue={product?.data?.priceChina}
+            name="priceChina"
+            ref={priceChinaRef}
+          />
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPrice">
-          <Form.Label>Price</Form.Label>
+          <Form.Label>Giá bán</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Price"
             defaultValue={product?.data?.price}
-            name='price'
+            name="price"
             ref={priceRef}
           />
         </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicStock">
-          <Form.Label>Count In Stock</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Count In Stock"
-            defaultValue={product?.data?.countInStock}
-            name='countInStock'
-            ref={countInStockRef}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicStock">
+        <Form.Group className="mb-3" controlId="formBasicSold">
           <Form.Label>Sold In Month</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Count In Stock"
+            placeholder="Reset"
             defaultValue={product?.data?.soldInMonth}
-            name='soldInMonth'
+            name="soldInMonth"
             ref={soldInMonthRef}
           />
         </Form.Group>
@@ -134,7 +98,7 @@ const UpdateProduct = () => {
             type="textarea"
             placeholder="Enter Description"
             defaultValue={product?.data?.description}
-            name='description'
+            name="description"
             ref={descriptionRef}
           />
         </Form.Group>
@@ -142,7 +106,7 @@ const UpdateProduct = () => {
           Change
         </Button>
       </Form>
-      {navigate && <Navigate to='/product' />}
+      {navigate && <Navigate to="/product" />}
     </>
   );
 };
