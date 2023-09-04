@@ -4,6 +4,7 @@ import { axiosApi } from "../../axios";
 import { Navigate, useParams } from "react-router-dom";
 
 const UpdateProduct = () => {
+  const countInStockRef = useRef();
   const wholesalePriceChinaRef = useRef();
   const wholesalePriceRef = useRef();
   const priceChinaRef = useRef();
@@ -26,6 +27,7 @@ const UpdateProduct = () => {
       method: "PUT",
       url: `products/update/${productId}`,
       data: {
+        countInStock:countInStockRef.current?.value,
         wholesalePriceChina: wholesalePriceChinaRef.current?.value,
         wholesalePrice: wholesalePriceRef.current?.value,
         price: priceRef.current?.value,
@@ -43,7 +45,17 @@ const UpdateProduct = () => {
     <>
       <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicWholesaleChina">
-          <Form.Label>Giá xỉ tại xưởng</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Tồn kho:</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter countInStock"
+            defaultValue={product?.data?.countInStock}
+            name="wholesalePriceChina"
+            ref={countInStockRef}
+          />
+        </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicWholesaleChina">
+          <Form.Label  className="fw-bold text-uppercase fs-5">Giá xỉ tại xưởng</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter price"
@@ -53,7 +65,7 @@ const UpdateProduct = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicWholesale">
-          <Form.Label>Giá sỉ tại nhà</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Giá sỉ tại nhà</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter price"
@@ -63,7 +75,7 @@ const UpdateProduct = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPriceChina">
-          <Form.Label>Giá lẻ tại xưởng</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Giá lẻ tại xưởng</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Price"
@@ -73,7 +85,7 @@ const UpdateProduct = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPrice">
-          <Form.Label>Giá bán</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Giá bán</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Price"
@@ -83,7 +95,7 @@ const UpdateProduct = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicSold">
-          <Form.Label>Sold In Month</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Sold In Month</Form.Label>
           <Form.Control
             type="text"
             placeholder="Reset"
@@ -93,7 +105,7 @@ const UpdateProduct = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicDé">
-          <Form.Label>Description</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Description</Form.Label>
           <Form.Control
             type="textarea"
             placeholder="Enter Description"

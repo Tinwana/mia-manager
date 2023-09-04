@@ -51,8 +51,7 @@ class orderController {
             message: "out of stock",
           });
         }
-      }
-      else{
+      } else {
         return res.status(400).json({
           status: "error",
           message: "product don't have in store",
@@ -122,7 +121,15 @@ class orderController {
   async updateOrder(req, res) {
     const orderId = req.params.id;
     try {
-      const product = await Product.findOne({ name: req.body.nameProduct });
+      const product = await Product.findOne({ productId: req.body.productId });
+      if(!product){
+        return res.status(400).json({
+          status: "not found",
+          message: "product id not found!",
+        });
+      }
+      const order = await Order.findOne({ productId: req.body.productId });
+      let oldOrderAmount = order?.amount || 0;
       const updateOrder = await Order.findByIdAndUpdate(
         { _id: orderId },
         req.body,
@@ -141,14 +148,15 @@ class orderController {
       } else {
         if (updateOrder) {
           const stockHandle = await Product.findOneAndUpdate(
-            { name: createOrder.nameProduct },
+            { productId: updateOrder.productId },
             {
               countInStock:
-                product.countInStock - updateOrder.amount < 0
+                product?.countInStock - (updateOrder?.amount - oldOrderAmount) < 0
                   ? 0
-                  : product.countInStock - createOrder.amount,
-              soldInMonth: (product.soldInMonth += updateOrder.amount),
-              soldAll: (product.soldAll += updateOrder.amount),
+                  : product?.countInStock -
+                    (updateOrder?.amount - oldOrderAmount),
+              soldInMonth: (product.soldInMonth += (updateOrder?.amount - oldOrderAmount)),
+              soldAll: (product.soldAll += (updateOrder?.amount - oldOrderAmount)),
             },
             { new: true }
           );

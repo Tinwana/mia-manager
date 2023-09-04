@@ -8,10 +8,9 @@ const UpdateOrder = () => {
   const amountRef = useRef()
   const priceRef = useRef()
   const discountRef = useRef()
-  const nameProductRef = useRef()
+  const productIdRef = useRef()
   const shippingAddressRef = useRef()
   const phoneNumberRef = useRef()
-  const totalPriceRef = useRef()
   const isPaidRef = useRef()
   const isDeliveredRef = useRef()
   const [order, setOrder] = useState([]);
@@ -34,7 +33,7 @@ const UpdateOrder = () => {
         amount:amountRef?.current.value,
         price:priceRef?.current.value,
         discount:discountRef?.current.value,
-        nameProduct:nameProductRef?.current.value,
+        productId:productIdRef?.current.value,
         shippingAddress:shippingAddressRef?.current.value,
         phoneNumber:phoneNumberRef?.current.value,
         // totalPrice:totalPriceRef?.current.value,
@@ -52,7 +51,7 @@ const UpdateOrder = () => {
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Name</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter name"
@@ -62,7 +61,7 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicImage">
-          <Form.Label>Amount</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Amount</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter amount"
@@ -72,7 +71,7 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicType">
-          <Form.Label>Price</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Price</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter price"
@@ -82,7 +81,7 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicWholesale">
-          <Form.Label>Discount</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Discount</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Discount"
@@ -92,17 +91,17 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPrice">
-          <Form.Label>Name Product</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">product Id</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter name"
-            defaultValue={order?.data?.nameProduct}
+            placeholder="Enter id"
+            defaultValue={order?.data?.productId}
             name='nameProduct'
-            ref={nameProductRef}
+            ref={productIdRef}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicStock">
-          <Form.Label>Shipping Address</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Shipping Address</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Shipping Address"
@@ -112,7 +111,7 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicDé">
-          <Form.Label>PhoneNumber</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">PhoneNumber</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter PhoneNumber"
@@ -122,17 +121,7 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicDé">
-          <Form.Label>TotalPrice</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter TotalPrice"
-            defaultValue={order?.data?.totalPrice}
-            name='totalPrice'
-            ref={totalPriceRef}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicDé">
-          <Form.Label>IsPaid</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">IsPaid</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter IsPaid"
@@ -142,7 +131,7 @@ const UpdateOrder = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicDé">
-          <Form.Label>IsDelivered</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">IsDelivered</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter IsDelivered"

@@ -39,7 +39,7 @@ const UpdateCustomerPage = () => {
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicName">
-          <Form.Label>Name</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter name"
@@ -49,7 +49,7 @@ const UpdateCustomerPage = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPhone">
-          <Form.Label>Phone</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Phone</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter phone"
@@ -59,7 +59,7 @@ const UpdateCustomerPage = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicAddress">
-          <Form.Label>Address</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Address</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Address"
@@ -69,7 +69,7 @@ const UpdateCustomerPage = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicDes">
-          <Form.Label>Description</Form.Label>
+          <Form.Label  className="fw-bold text-uppercase fs-5">Description</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Description"

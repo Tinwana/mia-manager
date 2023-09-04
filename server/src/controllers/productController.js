@@ -1,5 +1,5 @@
 const Product = require("../models/productModel.js");
-
+const formatNumber = require("../service/formatNumberService.js");
 class productController {
   async getAll(req, res, next) {
     try {
@@ -51,6 +51,7 @@ class productController {
   async createProduct(req, res, next) {
     try {
       const {
+        productId,
         name,
         size,
         type,
@@ -61,7 +62,6 @@ class productController {
         countInStock,
         description,
       } = req.body;
-      let productId = 0;
       const checkProduct = await Product.findOne({
         $and: [{ name: name, size: size }],
       });
@@ -71,22 +71,24 @@ class productController {
           message: "name of product is already in used",
         });
       } else {
-        const latestProduct = await Product.findOne({}).sort({
-          productId: "desc",
-        });
-        if (latestProduct !== null) {
-          const checkName = await Product.findOne({ name });
-          if (checkName === null) {
-            productId = parseInt(latestProduct.productId) + 1;
-          } else {
-            productId = parseInt(latestProduct.productId);
-          }
-        } else {
-          productId = 100;
-        }
-        productId = productId.toString();
+        // const latestProduct = await Product.findOne({}).sort({
+        //   productId: "desc",
+        // });
+        // if (latestProduct !== null) {
+        //   const checkName = await Product.findOne({ name });
+        //   if (checkName === null) {
+        //     const idNumber =
+        //       parseInt(latestProduct.productId.substring(0, 6)) + 1;
+        //     productId = formatNumber(idNumber);
+        //   } else {
+        //     productId = latestProduct.productId;
+        //   }
+        // } else {
+        //   const idNumber = 1;
+        //   productId = formatNumber(idNumber);
+        // }
         const createProduct = await Product.create({
-          productId: productId,
+          productId,
           name,
           size,
           type,

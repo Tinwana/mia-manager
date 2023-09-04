@@ -7,6 +7,7 @@ const CreateProductPage = () => {
   const [navigate,setNavigate] = useState(false);
 
   const nameRef = useRef()
+  const productIdRef = useRef()
   const sizeRef = useRef()
   const typeRef = useRef()
   const wholesalePriceChinaRef = useRef()
@@ -22,6 +23,7 @@ const CreateProductPage = () => {
       method: 'POST',
       url:'products/create',
       data:{
+        productId:productIdRef.current?.value,
         name:nameRef.current?.value,
         size:sizeRef.current?.value,
         type:typeRef.current?.value,
@@ -39,6 +41,16 @@ const CreateProductPage = () => {
     <>
       <Form onSubmit={handleSubmit} className="d-flex justify-content-between">
         <div className="flex-grow-1">
+        <Form.Group className="mb-3" controlId="formBasicName">
+            <Form.Label className="fw-bold text-uppercase fs-5">Mã sản phẩm:</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Nhập mã sản phẩm"
+              name="name"
+              required="required"
+              ref={productIdRef}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label className="fw-bold text-uppercase fs-5">Tên sản phẩm:</Form.Label>
             <Form.Control
