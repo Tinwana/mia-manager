@@ -14,7 +14,6 @@ const mongoDb = process.env.MONGO_DB;
 //app start
 const app = express();
 
-
 //middleware
 app.use(express.json(), express.urlencoded({ extended : false }));
 app.use(cors());
