@@ -11,7 +11,7 @@ function App() {
           {publicRoutes.map((route) => {
             const Layout = route.isShowHeader ? DefaultComponents : Fragment;
             return (
-              <Route
+              <Route 
                 key={route.path}
                 path={route.path}
                 element={

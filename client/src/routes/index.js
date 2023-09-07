@@ -10,7 +10,6 @@ import NotFoundPage from "../pages/NotFoundPage"
 import UpdateCustomerPage from "../pages/UpdateCustomerPage/UpdateCustomerPage"
 
 export const publicRoutes = [
-    {path:'/', element:HomePage, isShowHeader:true},
     {path:'/customer/update/:customerId', element:UpdateCustomerPage, isShowHeader:true},
     {path:'/customer', element:CustomerPage, isShowHeader:true},
     {path:'/order/update/:orderId', element:UpdateOrder, isShowHeader:true},
@@ -19,6 +18,7 @@ export const publicRoutes = [
     {path:'/product/update/:productId', element:UpdateProduct, isShowHeader:true},
     {path:'/product/create', element:CreateProductPage, isShowHeader:true},
     {path:'/product', element:ProductPage, isShowHeader:true},
+    {path:'/', element:HomePage, isShowHeader:true},
     {path:'*', element:NotFoundPage}
 
 ]
