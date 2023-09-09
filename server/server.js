@@ -29,6 +29,12 @@ mongoose.connect(mongoDb)
 
 //route app
 routes(app);
+// Define a health check route
+app.get('/health', (req, res) => {
+    // Check the health of your application here
+    // If everything is okay, return a 200 OK response
+    res.status(200).send('OK');
+  });
 
 
 app.listen(PORT , ()=> {
