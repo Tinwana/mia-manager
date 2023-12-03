@@ -13,19 +13,7 @@ const ViewHomeProducts: React.FC = () => {
             className="col-span-1 cursor-pointer border-[1.2px] border-slate-200 bg-slate-50 rounded-sm p-2 transition hover:scale-105 text-center text-sm"
             key={product.id}
           >
-            <Suspense
-              fallback={
-                <Skeleton
-                  variant="rectangular"
-                  width="100%"
-                  height="100%"
-                  animation="wave"
-                  className="bg-slate-300"
-                />
-              }
-            >
-              <ProductCard data={product} />;
-            </Suspense>
+            <ProductCard data={product} />;
           </Link>
         );
       })}
