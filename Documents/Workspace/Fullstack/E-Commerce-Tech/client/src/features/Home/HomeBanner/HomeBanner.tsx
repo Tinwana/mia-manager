@@ -18,24 +18,13 @@ const HomeBanner: React.FC = async () => {
           </p>
         </section>
         <div className="w-1/3 relative aspect-video">
-          <Suspense
-            fallback={
-              <Skeleton
-                variant="rectangular"
-                width={1000}
-                height={250}
-                animation="wave"
-              />
-            }
-          >
-            <Image
-              src="/banner-image.png"
-              alt="Banner image"
-              className="object-contain"
-              loading="lazy"
-              decoding="async"
-            />
-          </Suspense>
+          <Image
+            src="/banner-image.png"
+            alt="Banner image"
+            className="object-contain"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </article>
